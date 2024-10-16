@@ -1,3 +1,3 @@
 # Swift
 
-### ElochkaGori $\eq$ serastvorovPW1
+### ElochkaGori $=$ serastvorovPW1
