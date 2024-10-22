@@ -6,13 +6,13 @@
 //
 
 protocol BusinessLogoc {
-    func loadStart()
-    func loadOther()
+    func loadStart(_ request: Model.Start.Request)
+    func loadOther(_ request: Model.Other.Request)
 }
 
 protocol PresentationLogoc {
-    func presentStart()
-    func presentOther()
+    func presentStart(_ response: Model.Start.Response)
+    func presentOther(_ response: Model.Other.Response)
     
     func routeTo()
 }
