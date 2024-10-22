@@ -5,21 +5,23 @@
 //  Created by Сергей Растворов on 10/22/24.
 //
 
+import UIKit
+
 final class Presenter: PresentationLogic {
-    private weak var view: ViewController?
+    weak var view: ViewController?
     
     
-    
+
     func presentStart(_ response: Model.Start.Response) {
-        <#code#>
+        view?.displayStart()
     }
     
     func presentOther(_ response: Model.Other.Response) {
-        <#code#>
+        view?.displayOther()
     }
     
     func routeTo() {
-        view?.navigationController?.pushViewController(ViewController(), animated: true)
+        view?.navigationController?.pushViewController(UIViewController(), animated: true)
     }
     
     

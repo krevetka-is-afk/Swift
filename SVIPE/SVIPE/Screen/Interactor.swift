@@ -5,7 +5,7 @@
 //  Created by Сергей Растворов on 10/22/24.
 //
 
-final class Interactor : BussinesLogic {
+final class Interactor : BusinessLogic {
     private let presenter: PresentationLogic
     init (presenter: PresentationLogic) {
         self.presenter = presenter

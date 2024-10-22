@@ -5,7 +5,7 @@
 //  Created by Сергей Растворов on 10/22/24.
 //
 
-protocol BussinesLogic {
+protocol BusinessLogic {
     func loadStart(_ request: Model.Start.Request)
     func loadOther(_ request: Model.Other.Request)
 }
