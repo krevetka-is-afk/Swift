@@ -1,20 +1,20 @@
+////
+////  BadgeSymbol.swift
+////  Landmarks
+////
+////  Created by Сергей Растворов on 10/25/24.
+////
 //
-//  BadgeSymbol.swift
-//  Landmarks
+//import SwiftUI
 //
-//  Created by Сергей Растворов on 10/25/24.
+//struct BadgeSymbol: View {
+//    var body: some View {
+//        GeometryReader {
+//            
+//        }
+//    }
+//}
 //
-
-import SwiftUI
-
-struct BadgeSymbol: View {
-    var body: some View {
-        GeometryReader {
-            
-        }
-    }
-}
-
-#Preview {
-    BadgeSymbol()
-}
+//#Preview {
+//    BadgeSymbol()
+//}
