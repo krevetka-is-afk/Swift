@@ -28,10 +28,12 @@ final class WishMakerViewController: UIViewController {
         static let descriptionFontSize: CGFloat = 16
     }
     
+    // MARK: - properties for color condition
     private var redValue: Double = 0
     private var greenValue: Double = 0
     private var blueValue: Double = 0
     
+    // MARK: - properties for textLabels
     private let titleLabel = UILabel()
     private let descriptionLabel = UILabel()
     
@@ -40,8 +42,9 @@ final class WishMakerViewController: UIViewController {
         configureUI()
     }
     
+    // MARK: - configureUI agregate of all func wich work with UI
     private func configureUI() {
-        view.backgroundColor = .systemPink
+        view.backgroundColor = .black
         
         configureTitle()
         configureDescription()
@@ -49,6 +52,7 @@ final class WishMakerViewController: UIViewController {
         updateTextColor()
     }
     
+    // MARK: - configureTitle modifies a titleLabel
     private func configureTitle() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.text = "WishMaker"
@@ -64,12 +68,13 @@ final class WishMakerViewController: UIViewController {
             ])
     }
     
+    // MARK: - configureDescription modifies a descriptionLabel
     private func configureDescription() {
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.text = "This app will bring you joy and will fulfill your wishes! \nThe first wish is to change the background color"
         descriptionLabel.font = UIFont.systemFont(ofSize: Constants.descriptionFontSize)
-        descriptionLabel.numberOfLines = 0 // Позволяет метке занимать несколько строк
-        descriptionLabel.textAlignment = .left // (опционально)
+        descriptionLabel.numberOfLines = 0 // allows label take couple lines
+        descriptionLabel.textAlignment = .left // optional left alligment
 
             view.addSubview(descriptionLabel)
             NSLayoutConstraint.activate([
@@ -80,6 +85,7 @@ final class WishMakerViewController: UIViewController {
             ])
     }
     
+    // MARK: - configureSliders creates a stack and add three sliders inside
     private func configureSliders() {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -106,7 +112,6 @@ final class WishMakerViewController: UIViewController {
             self?.updateBackgroundColor()
         }
         
-//        let sliderTest = CustomSlider(title: "Test", min: 0, max: 1)
         for slider in [sliderRed, sliderGreen, sliderBlue, /*sliderTest*/] {
             stack.addArrangedSubview(slider)
         }
@@ -117,16 +122,15 @@ final class WishMakerViewController: UIViewController {
             stack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: Constants.stackBottom)
         ])
         
-//        sliderRed.valueChanged = {
-//            [weak self] value in self?.view.backgroundColor = ...
-//        }
     }
     
+    // MARK: - updateBackgroundColor wrap for update a backgroundColor by values in properties
     private func updateBackgroundColor() {
         view.backgroundColor = UIColor(red: redValue, green: greenValue, blue: blueValue, alpha: 1.0)
         updateTextColor()
     }
     
+    // MARK: - updateTextColor makes invert text color and resolve it to properties
     private func updateTextColor() {
         guard let backgroundColor = view.backgroundColor else { return }
         
@@ -136,6 +140,7 @@ final class WishMakerViewController: UIViewController {
         descriptionLabel.textColor = invertColor
     }
     
+    // MARK: - CustomSlider discribes a slider wich change a color of Background
     final class CustomSlider: UIView {
         var valueChanged: ((Double) -> Void)?
         
