@@ -28,6 +28,13 @@ final class WishMakerViewController: UIViewController {
         static let descriptionFontSize: CGFloat = 16
     }
     
+    private var redValue: Double = 0
+    private var greenValue: Double = 0
+    private var blueValue: Double = 0
+    
+    private let titleLabel = UILabel()
+    private let descriptionLabel = UILabel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -39,38 +46,37 @@ final class WishMakerViewController: UIViewController {
         configureTitle()
         configureDescription()
         configureSliders()
+        updateTextColor()
     }
     
     private func configureTitle() {
-        let title = UILabel()
-        title.translatesAutoresizingMaskIntoConstraints = false
-        title.text = "WishMaker"
-//        title.font = UIFont.systemFont(ofSize: 32)
-        title.font = UIFont.boldSystemFont(ofSize: Constants.titleFontSize)
-//        title.textColor = UIColor.systemBlue
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.text = "WishMaker"
+//        titleLabel.font = UIFont.systemFont(ofSize: 32)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: Constants.titleFontSize)
         
-        view.addSubview(title)
+        
+        view.addSubview(titleLabel)
         NSLayoutConstraint.activate([
-            title.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            title.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            title.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 3 * Constants.constraintTop)
+            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 3 * Constants.constraintTop)
             ])
     }
     
     private func configureDescription() {
-        let description = UILabel()
-        description.translatesAutoresizingMaskIntoConstraints = false
-        description.text = "This app will bring you joy and will fulfill your wishes! \nThe first wish is to change the background color"
-        description.font = UIFont.systemFont(ofSize: Constants.descriptionFontSize)
-        description.numberOfLines = 0 // Позволяет метке занимать несколько строк
-        description.textAlignment = .left // (опционально)
+        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        descriptionLabel.text = "This app will bring you joy and will fulfill your wishes! \nThe first wish is to change the background color"
+        descriptionLabel.font = UIFont.systemFont(ofSize: Constants.descriptionFontSize)
+        descriptionLabel.numberOfLines = 0 // Позволяет метке занимать несколько строк
+        descriptionLabel.textAlignment = .left // (опционально)
 
-            view.addSubview(description)
+            view.addSubview(descriptionLabel)
             NSLayoutConstraint.activate([
-                description.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                description.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.constraintLeading),
-                description.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 2 * Constants.constraintTop + 2 * Constants.titleFontSize),
-                description.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -1 * Constants.constraintLeading)
+                descriptionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.constraintLeading),
+                descriptionLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 2 * Constants.constraintTop + 2 * Constants.titleFontSize),
+                descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -1 * Constants.constraintLeading)
             ])
     }
     
@@ -83,8 +89,23 @@ final class WishMakerViewController: UIViewController {
         stack.clipsToBounds = true
         
         let sliderRed = CustomSlider(title: Constants.red, min: Constants.sliderMin, max: Constants.sliderMax)
+        sliderRed.valueChanged = { [weak self] value in
+            self?.redValue = value
+            self?.updateBackgroundColor()
+        }
+        
         let sliderGreen = CustomSlider(title: Constants.green, min: Constants.sliderMin, max: Constants.sliderMax)
+        sliderGreen.valueChanged = { [weak self] value in
+            self?.greenValue = value
+            self?.updateBackgroundColor()
+        }
+        
         let sliderBlue = CustomSlider(title: Constants.blue, min: Constants.sliderMin, max: Constants.sliderMax)
+        sliderBlue.valueChanged = { [weak self] value in
+            self?.blueValue = value
+            self?.updateBackgroundColor()
+        }
+        
 //        let sliderTest = CustomSlider(title: "Test", min: 0, max: 1)
         for slider in [sliderRed, sliderGreen, sliderBlue, /*sliderTest*/] {
             stack.addArrangedSubview(slider)
@@ -99,6 +120,20 @@ final class WishMakerViewController: UIViewController {
 //        sliderRed.valueChanged = {
 //            [weak self] value in self?.view.backgroundColor = ...
 //        }
+    }
+    
+    private func updateBackgroundColor() {
+        view.backgroundColor = UIColor(red: redValue, green: greenValue, blue: blueValue, alpha: 1.0)
+        updateTextColor()
+    }
+    
+    private func updateTextColor() {
+        guard let backgroundColor = view.backgroundColor else { return }
+        
+        let ciColor = CIColor(color: backgroundColor)
+        let invertColor = UIColor(red: 1 - 0.299 * ciColor.red, green: 1 - 0.587 * ciColor.green, blue: 1 - 0.587 * ciColor.blue, alpha: 1)
+        titleLabel.textColor = invertColor
+        descriptionLabel.textColor = invertColor
     }
     
     final class CustomSlider: UIView {
